@@ -1,0 +1,4 @@
+task: cbis_ddsm
+label_space: [benign, malignant]
+dataset: {root: /content/data/CBIS-DDSM, dicom_root: /content/data/CBIS-DDSM/CBIS-DDSM}
+partition: {num_clients: 8}

@@ -1,0 +1,4 @@
+task: breakhis
+label_space: [benign, malignant]
+dataset: {root: /content/data/BreaKHis_v1}
+partition: {num_clients: 8}

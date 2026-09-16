@@ -1,0 +1,17 @@
+torch==2.9.0
+torchvision==0.24.0
+timm==1.0.28
+captum==0.9.0
+scikit-learn>=1.5
+scipy>=1.13
+numpy>=2.0
+pandas>=2.2
+matplotlib>=3.9
+opencv-python-headless>=4.9
+pydicom>=2.4
+pylibjpeg[all]            # compressed DICOM (CBIS-DDSM / INbreast)
+imagehash>=4.3
+pyyaml>=6.0
+openpyxl                  # INbreast.xls(x) metadata
+xlrd                      # legacy INbreast.xls
+psutil

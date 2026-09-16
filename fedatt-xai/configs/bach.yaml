@@ -1,0 +1,5 @@
+task: bach
+label_space: [normal, benign, in_situ, invasive]
+dataset: {root: /content/data/ICIAR2018_BACH_Challenge}
+partition: {num_clients: 4}
+preprocessing: {stain_max_side: null}

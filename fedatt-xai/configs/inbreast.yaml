@@ -1,0 +1,4 @@
+task: inbreast
+label_space: [negative, positive]
+dataset: {root: /content/data/INbreast}
+partition: {num_clients: 5}

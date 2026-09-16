@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------------------
+# Shared protocol (Section 4.3). Task files override only what differs.
+# ---------------------------------------------------------------------------
+seeds: [0, 1, 2, 3, 4]
+
+paths:
+  data_root: /content/data          # raw datasets (see README)
+  cache: /content/cache             # preprocessed per-client arrays
+  results: /content/results
+
+model:
+  backbone: vit_small               # vit_small | resnet50 (ablation only)
+  pretrained: true
+
+partition:
+  beta: 0.5                         # 0.5 moderate, 0.1 severe
+  ratios: [0.7, 0.1, 0.2]
+  min_groups_per_client: 3
+
+preprocessing:
+  fit_max_images: 64                # images used to estimate Macenko ref / clip points
+  stain_max_side: null              # null = Macenko at native resolution
+  mammo_channel_norm: false         # manuscript specifies [0,1] scaling only for mammography
+  mask_max_side: null               # null = masks at native annotation resolution
+  brecahad_point_radius: 12
+
+optim:
+  lr_head: 3.0e-3
+  lr_encoder: 3.0e-5
+  weight_decay: 0.05
+  batch_size: 32                    # effective batch size (gradient accumulation)
+  grad_clip: 1.0
+
+train:
+  micro_batch: 32                   # lower if memory requires; effective stays 32
+  eval_batch: 128
+  amp: true
+  workers: 2
+
+fl:
+  rounds: 100
+  local_epochs: 2
+  save_rounds: [10]                 # checkpoint attacked by DLG
+  log_val_every_round: true
+  force_val_checkpoint: false       # true -> baseline + val checkpoint (Table 18 row 3)
+  save_personalized: false
+
+methods:
+  fedprox: {mu: 0.01}
+  moon: {mu: 1.0, temperature: 0.5}
+  fedatt: {temperature: 1.0, normalize_by_size: false}
+  fedas: {align_epochs: 1, fim_batches: 10}
+
+personalization:
+  tau: 500
+  epoch_grid: [1, 2, 3, 5, 10]
+  patience: 2
+  lr_head: 3.0e-3
+  lr_encoder: 3.0e-5
+
+xai:
+  background_size: 64
+  n_samples: 128
+  shap_chunk: 32
+  deletion_steps: 20
+  stability_copies: 10
+  stability_sigma: 0.01
+  stability_sigma_sweep: [0.005, 0.01, 0.02, 0.05, 0.10]
+  top_fraction: 0.20
+  top_fraction_sweep: [0.10, 0.15, 0.20, 0.25, 0.30]
+  baselines: [mean, blur, inpaint]
+  reference_subset: 50
+  max_test_images_per_client: null  # null = all held-out images
+
+privacy:
+  batch_size: 32
+  iterations: 300
+  attacked_batches: 10
+  round: 10
+
+hparam_search:
+  trials: 20
+  seed: 0

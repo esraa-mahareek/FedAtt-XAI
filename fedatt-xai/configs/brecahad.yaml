@@ -1,0 +1,7 @@
+# Explainability-only transfer analysis: BreaKHis global model, no fine-tuning.
+task: brecahad
+label_space: [benign, malignant]
+dataset: {root: /content/data/BreCaHAD}
+source_task_config: configs/breakhis.yaml
+source_client_for_preprocessing: 0
+partition: {num_clients: 8}
